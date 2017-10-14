@@ -1,0 +1,74 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="author" content="CGT">
+		<title>回复贴子</title>
+		<script src="../../lib/jquery-3.2.1.min.js"></script>
+		<link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css">
+		<style>
+		</style>
+	</head>
+
+	<body>
+
+		<div class="container">
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<h3 class="panel-title">贴子信息</h3>
+				</div>
+				<div class="panel-body">
+
+					<form action="/api/v1/reply/add" method="POST" role="form">
+						<legend>New Reply</legend>
+
+						<div class="form-group">
+							<label for="post">贴子</label>
+							<select name="post" id="selPost" class="form-control" style="width: 120px">
+
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="replier">回贴人</label>
+							<select name="replier" id="selReplier" class="form-control" style="width: 120px">
+
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="content">内容</label>
+							<input type="text" class="form-control" id="content" name="content" placeholder="请输入内容">
+						</div>
+
+						<button type="submit" class="btn btn-danger btn-block">确认添加</button>
+					</form>
+
+				</div>
+			</div>
+		</div>
+
+		<script>
+			$.getJSON('/api/v1/user/get_data', function (data) {
+				if (data.code = 'success') {
+					var str = '<option value="">请选择</option>';
+					data.users.forEach(function (user) {
+						str += `
+						<option value="${user._id/*  */}">${user.name}</option>
+						`
+					}, this);
+					$('#selReplier').html(str);
+				}
+			})
+			$.getJSON('/api/v1/post/get_data', function (data) {
+				if (data.code = 'success') {
+					var str = '<option value="">请选择</option>';
+					data.posts.forEach(function (post) {
+						str += `
+						<option value="${post._id}">${post.title}</option>
+						`
+					}, this);
+					$('#selPost').html(str);
+				}
+			})
+		</script>
+	</body>
+	<html>

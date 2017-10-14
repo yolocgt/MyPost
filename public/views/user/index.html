@@ -1,0 +1,75 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="author" content="CGT">
+		<title>用户中心</title>
+		<script src="../../lib/jquery-3.2.1.min.js"></script>
+		<script src="../../lib/template-web.js"></script>
+		<link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css">
+		<style>
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="btns pull-right" style="margin: 10px 0 0 0">
+				<a class="btn btn-primary" href="add.html" role="button">添加用户</a>
+				<a class="btn btn-success" href="../post/add.html" role="button">发表新帖</a>
+				<a class="btn btn-danger" href="../reply/add.html" role="button">回复帖子</a>
+			</div>
+
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>姓名</th>
+						<th>年龄</th>
+						<th>发贴数</th>
+						<th>评论数</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+
+		</div>
+		<script id="tpl" type="text/html">
+			{{each users user index}}
+				<tr>
+					<td>{{index+1}}</td>
+					<td>{{user.name}}</td>
+					<td>{{user.age}}</td>
+					<td>
+						<a href="/views/post/index.html">{{user.post_num}}</a>
+					</td>
+					<td>
+						<a href="/views/reply/index.html">{{user.reply_num}}</a>
+					</td>
+					<td>
+						<a class="btn btn-danger" href="javascript:void(0)" onclick="delUserById('{{user._id}}')" role="button">删除</a>
+					</td>
+				</tr>
+			{{/each}}
+		</script>
+		<script>
+			$.getJSON('/api/v1/user/get_data', function (data) {
+				if (data.code == 'success') {
+					var str = template('tpl', { users: data.users })
+					$('tbody').html(str);
+				}
+			})
+			function delUserById(id) {
+				$.get('/api/v1/user/delete/' + id, (data) => {
+					if (data.code == 'success') {
+						alert('用户删除成功');
+						location.reload();
+					}
+				})
+
+			}
+		</script>
+	</body>
+	<html>

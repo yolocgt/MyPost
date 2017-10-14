@@ -1,0 +1,72 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="author" content="CGT">
+		<title>用户中心</title>
+		<script src="../../lib/jquery-3.2.1.min.js"></script>
+		<script src="../../lib/template-web.js"></script>
+		<link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css">
+		<style>
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="btns pull-right" style="margin: 10px 0 0 0">
+				<a class="btn btn-primary" href="../user/index.html" role="button">首页</a>
+				<a class="btn btn-success" href="add.html" role="button">发表帖子</a>
+			</div>
+
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>作者</th>
+						<th>标题</th>
+						<th>内容</th>
+						<th>评论数</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+
+		</div>
+
+		<script id="tpl" type="text/html">
+			{{each posts post index}}
+				<tr>
+					<td>{{index+1}}</td>
+					<td>{{post.poster.name}}</td>
+					<td>{{post.title}}</td>
+					<td>{{post.content}}</td>
+					<td>{{post.reply_num}}</td>
+					<td>
+						<a class="btn btn-danger" href="javascript:void(0)" onclick="delPostById('{{post._id}}')" role="button">删除</a>
+					</td>
+				</tr>
+			{{/each}}
+		</script>
+		<script>
+			$.getJSON('/api/v1/post/get_data', function (data) {
+				if (data.code == 'success') {
+					var str = template('tpl', { posts: data.posts });
+					$('tbody').html(str);
+				}
+			})
+			function delPostById(id) {
+				if (confirm('确认删除吗?')) {
+					$.get('/api/v1/post/delete/' + id, (data) => {
+						if (data.code == 'success') {
+							alert('贴子删除成功');
+							location.href = '/';
+						}
+					})
+				}
+			}
+		</script>
+	</body>
+	<html>

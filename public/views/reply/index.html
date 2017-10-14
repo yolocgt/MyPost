@@ -1,0 +1,73 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="author" content="CGT">
+		<title>用户中心</title>
+		<script src="../../lib/jquery-3.2.1.min.js"></script>
+		<script src="../../lib/template-web.js"></script>
+		<link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css">
+		<style>
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="btns pull-right" style="margin: 10px 0 0 0">
+				<a class="btn btn-primary" href="../user/index.html" role="button">首页</a>
+				<a class="btn btn-danger" href="add.html" role="button">回复贴子</a>
+			</div>
+
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>发贴人</th>
+						<th>发贴标题</th>
+						<th>回贴人</th>
+						<th>回贴内容</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<!-- <td></td> -->
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+
+		<script id="tpl" type="text/html">
+			{{each replies reply index}}
+				<tr>
+					<td>{{index+1}}</td>
+					<td>{{reply.post.poster.name}}</td>
+					<td>{{reply.post.title}}</td>
+					<td>{{reply.replier.name}}</td>
+					<td>{{reply.content}}</td>
+					<td>
+						<a class="btn btn-danger" href="javascript:void(0)" onclick='delReplyById("{{reply._id}}")' role="button">删除</a>
+						<!-- <a class="btn btn-danger" href="/api/v1/reply/delete/{{reply._id}}" role="button">删除</a> -->
+					</td>
+				</tr>
+			{{/each}}
+		</script>
+		<script>
+			$.getJSON('/api/v1/reply/get_data', (data) => {
+				if (data.code == 'success') {
+					var str = template('tpl', { replies: data.replies });
+					$('tbody').html(str);
+				}
+			})
+			function delReplyById(id) {
+				$.get('/api/v1/reply/delete/' + id, (data) => {
+					if (data.code == 'success') {
+						alert('回贴删除成功');
+						location.href = '/';
+					}
+				})
+			}
+		</script>
+	</body>
+	<html>

@@ -1,0 +1,39 @@
+	{
+		"_id": "59e1cbe028ead6209c1cff37",
+		"post": {
+			"_id": "59e1cb9028ead6209c1cff34",
+			"title": "天气",
+			"poster": {
+				"_id": "59e1c414b3cc48356ca52e00",
+				"name": "Shelly",
+				"age": 23,
+				"__v": 0,
+				"reply_num": 0,
+				"post_num": 2
+			},
+			"content": "今天天气怎么样",
+			"__v": 0,
+			"reply_num": 1
+		},
+		"replier": {
+			"_id": "59e17c80d9781f19d87f59f9",
+			"name": "Galen"
+		},
+		"content": "ggg cool~~~~~~~~",
+		"__v": 0
+	}
+	
+		{
+			"_id": "59e1cbe028ead6209c1cff37",
+			"post": {
+				"_id": "59e1cb9028ead6209c1cff34",
+				"title": "天气",
+				"poster": "59e1c414b3cc48356ca52e00"
+			},
+			"replier": {
+				"_id": "59e17c80d9781f19d87f59f9",
+				"name": "Galen"
+			},
+			"content": "ggg cool~~~~~~~~",
+			"__v": 0
+		}
